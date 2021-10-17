@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     private static Text ScoreText { get; set; }
     private static Text TimerText { get; set; }
 
-    void Start()
+    private void OnEnable()
     {
         ScoreText = _scoreText;
         TimerText = _timerText;

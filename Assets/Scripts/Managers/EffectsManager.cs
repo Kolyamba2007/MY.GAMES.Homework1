@@ -7,7 +7,7 @@ public class EffectsManager : MonoBehaviour
 
     private static GameObject ExplosionEffect { get; set; }
 
-    private void Start()
+    private void OnEnable()
     {
         ExplosionEffect = _explosionEffect;
     }

@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
     public static AudioClip ExplosionClip { get; set; }
     public static AudioClip ClickClip { get; set; }
 
-    private void Start()
+    private void OnEnable()
     {
         AudioSource = _audioSource;
         ExplosionClip = _explosionClip;
