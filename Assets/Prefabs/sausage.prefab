@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4745871712851637064}
   - component: {fileID: 928049576741644710}
   - component: {fileID: -2472119277856381465}
-  - component: {fileID: -2162787631280989559}
   - component: {fileID: -6974587675516590425}
+  - component: {fileID: -2162787631280989559}
   m_Layer: 0
   m_Name: sausage
   m_TagString: Untagged
@@ -311,21 +311,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-2162787631280989559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6526602255116471871}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae8a1ab2a9983844ab3f96f57188399f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  liveTime: 10
-  _explosionRadius: 5
-  _explosionForce: 243.9
 --- !u!1818360610 &-6974587675516590425
 ScaleConstraint:
   m_ObjectHideFlags: 0
@@ -345,3 +330,19 @@ ScaleConstraint:
   m_Sources:
   - sourceTransform: {fileID: 3841086372546151747}
     weight: 1
+--- !u!114 &-2162787631280989559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6526602255116471871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8a1ab2a9983844ab3f96f57188399f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _liveTime: 12
+  _possibleScorePoints: 20
+  _explosionRadius: 7
+  _explosionForce: 250

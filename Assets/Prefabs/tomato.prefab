@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 7705029133425108356}
   - component: {fileID: 3624075279907514682}
   - component: {fileID: -1905103735702907567}
-  - component: {fileID: 3875253341864954340}
   - component: {fileID: 2978838203464881428}
+  - component: {fileID: 3875253341864954340}
   m_Layer: 0
   m_Name: tomato
   m_TagString: Untagged
@@ -299,21 +299,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3875253341864954340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5292651150387974890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae8a1ab2a9983844ab3f96f57188399f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  liveTime: 10
-  _explosionRadius: 5
-  _explosionForce: 159.8
 --- !u!1818360610 &2978838203464881428
 ScaleConstraint:
   m_ObjectHideFlags: 0
@@ -333,3 +318,19 @@ ScaleConstraint:
   m_Sources:
   - sourceTransform: {fileID: 4904725748894178206}
     weight: 1
+--- !u!114 &3875253341864954340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5292651150387974890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8a1ab2a9983844ab3f96f57188399f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _liveTime: 7
+  _possibleScorePoints: 12
+  _explosionRadius: 6
+  _explosionForce: 120

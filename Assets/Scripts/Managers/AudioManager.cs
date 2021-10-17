@@ -1,18 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip _explosionClip, _clickClip;
+
+    private static AudioSource AudioSource { get; set; }
+    public static AudioClip ExplosionClip { get; set; }
+    public static AudioClip ClickClip { get; set; }
+
+    private void Start()
     {
-        
+        AudioSource = _audioSource;
+        ExplosionClip = _explosionClip;
+        ClickClip = _clickClip;
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void PlaySound(AudioClip clip)
     {
-        
+        AudioSource.PlayOneShot(clip);
     }
 }

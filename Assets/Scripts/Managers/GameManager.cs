@@ -1,9 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Время игры в секундах")]
+    [SerializeField, Range(120, 300)]
+    private int GameTime;
     [Header("Точка появления персонажей")]
     [SerializeField]
     private Transform SpawnPoint;
@@ -12,19 +15,28 @@ public class GameManager : MonoBehaviour
     private GameObject Egg, Sausage, Tomato;
     [Header("Время между появлением персонажей")]
     [SerializeField, Range(1, 5)]
-    private float time;
+    private float SpawnTime;
+    public static int Score { get; set; } = 0;
 
     void Start()
     {
-        StartCoroutine(Spawn(time));
+        StartCoroutine(GameTimer());
+        StartCoroutine(Spawn(SpawnTime));
     }
 
-    void Update()
+    private IEnumerator GameTimer()
     {
-        
+        while (GameTime > 0)
+        {
+            GameTime--;
+            UIManager.OnChangedGameTime(GameTime);
+            yield return new WaitForSeconds(1);
+        }
+
+        EditorApplication.isPlaying = false;
     }
 
-    private IEnumerator Spawn(float time)
+    private IEnumerator Spawn(float spawnTime)
     {
         while (true)
         {
@@ -40,9 +52,15 @@ public class GameManager : MonoBehaviour
                     Instantiate(Sausage, SpawnPoint.position, Quaternion.identity);
                     break;
             }
-            yield return new WaitForSeconds(time);
+            yield return new WaitForSeconds(spawnTime);
         }
     }
 
-    //event EndGame
+    public static void ChangingScore(int score)
+    {
+        Score += score;
+        if(Score < 0) Score = 0;
+
+        UIManager.OnChangedScore(Score);
+    }
 }

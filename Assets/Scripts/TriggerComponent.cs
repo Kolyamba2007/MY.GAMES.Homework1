@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using UnityEditor;
 
 public class TriggerComponent : MonoBehaviour
 {
-    private void OnTriggerEnter2D()
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        EditorApplication.isPlaying = false;
+        Destroy(collider.gameObject);
     }
 }

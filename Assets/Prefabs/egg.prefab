@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4472590351646802056}
   - component: {fileID: 3555146356791920944}
   - component: {fileID: 7532378719589737276}
-  - component: {fileID: -4212174162117711596}
   - component: {fileID: -8391230882680145825}
+  - component: {fileID: -4212174162117711596}
   m_Layer: 0
   m_Name: egg
   m_TagString: Untagged
@@ -260,21 +260,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-4212174162117711596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2935273442481317230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae8a1ab2a9983844ab3f96f57188399f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  liveTime: 10
-  _explosionRadius: 4
-  _explosionForce: 153
 --- !u!1818360610 &-8391230882680145825
 ScaleConstraint:
   m_ObjectHideFlags: 0
@@ -294,3 +279,19 @@ ScaleConstraint:
   m_Sources:
   - sourceTransform: {fileID: 8977851449898803356}
     weight: 1
+--- !u!114 &-4212174162117711596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935273442481317230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8a1ab2a9983844ab3f96f57188399f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _liveTime: 6
+  _possibleScorePoints: 10
+  _explosionRadius: 4
+  _explosionForce: 200
