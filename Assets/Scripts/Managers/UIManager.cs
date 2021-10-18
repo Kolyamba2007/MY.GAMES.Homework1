@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
 
     public static void OnChangedGameTime(int gameTime)
     {
-        TimerText.text = $"{gameTime/60}:{gameTime%60}";
+        TimerText.text = (gameTime % 60) < 10 ? $"{gameTime / 60}:0{gameTime % 60}" : $"{gameTime/60}:{gameTime%60}";
     }
 
     public static void OnChangedScore(int score)
