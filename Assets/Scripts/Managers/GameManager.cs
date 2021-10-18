@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +17,11 @@ public class GameManager : MonoBehaviour
     [Header("Время между появлением персонажей")]
     [SerializeField, Range(1, 5)]
     private float SpawnTime;
+    [SerializeField]
+    private GameObject PotWithoutLid, PotLid;
+
     public static int Score { get; set; } = 0;
+    private LinkedList<GameObject> characters = new LinkedList<GameObject>();
 
     void Start()
     {
@@ -37,20 +42,20 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    private IEnumerator Spawn(float spawnTime)
+    private IEnumerator Spawning(float spawnTime)
     {
         while (true)
         {
             switch (Random.Range(0, 3))
             {
                 case 0:
-                    Instantiate(Egg, SpawnPoint.position, Quaternion.identity);
+                    CreateCharacter(Egg);
                     break;
                 case 1:
-                    Instantiate(Tomato, SpawnPoint.position, Quaternion.identity);
+                    CreateCharacter(Tomato);
                     break;
                 case 2:
-                    Instantiate(Sausage, SpawnPoint.position, Quaternion.identity);
+                    CreateCharacter(Sausage);
                     break;
             }
             yield return new WaitForSeconds(spawnTime);
@@ -61,10 +66,18 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < 5; i++) yield return new WaitForSeconds(1);
 
+        Destroy(PotWithoutLid);
+        Destroy(PotLid);
+
         StartCoroutine(GameTimer());
-        StartCoroutine(Spawn(SpawnTime));
+        StartCoroutine(Spawning(SpawnTime));
 
         yield break;
+    }
+
+    private void CreateCharacter(GameObject character)
+    {
+        characters.AddLast(Instantiate(character, SpawnPoint.position, Quaternion.identity));
     }
 
     public void ExitGame()
@@ -74,6 +87,8 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(int SceneId)
     {
+        foreach (var character in characters) Destroy(character);
+
         SceneManager.LoadSceneAsync(SceneId);
     }
 

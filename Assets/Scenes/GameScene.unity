@@ -908,7 +908,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 19d938f1e06a2c24992fe146a9b78d72, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1782,7 +1782,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: e78af3fe8ea8d124e9a341ebfdf6b923, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2230,6 +2230,8 @@ MonoBehaviour:
   Sausage: {fileID: 6526602255116471871, guid: 24eaadf22c1bf9341a4b0f7ec41d21dc, type: 3}
   Tomato: {fileID: 5292651150387974890, guid: 3de457b65c6818a4a89da7079fc20644, type: 3}
   SpawnTime: 2
+  PotWithoutLid: {fileID: 793564915}
+  PotLid: {fileID: 406604725}
 --- !u!4 &1191524915
 Transform:
   m_ObjectHideFlags: 0
@@ -2385,7 +2387,7 @@ GameObject:
   - component: {fileID: 1247292123}
   - component: {fileID: 1247292122}
   m_Layer: 0
-  m_Name: Trigger
+  m_Name: FireTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2472,7 +2474,7 @@ Transform:
   m_Children:
   - {fileID: 12942528}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1455802745
 GameObject:
@@ -2723,7 +2725,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1572260028
 PrefabInstance:
@@ -3494,7 +3496,7 @@ Transform:
   - {fileID: 68872687}
   - {fileID: 2109799383}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1771967632
 GameObject:
