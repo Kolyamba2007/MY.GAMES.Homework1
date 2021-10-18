@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,8 +20,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(GameTimer());
-        StartCoroutine(Spawn(SpawnTime));
+        Time.timeScale = 1;
+        UIManager.OnChangedGameTime(GameTime);
+        StartCoroutine(Countdown());
     }
 
     private IEnumerator GameTimer()
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
-        EditorApplication.isPlaying = false;
+        Time.timeScale = 0;
     }
 
     private IEnumerator Spawn(float spawnTime)
@@ -54,6 +55,26 @@ public class GameManager : MonoBehaviour
             }
             yield return new WaitForSeconds(spawnTime);
         }
+    }
+
+    private IEnumerator Countdown()
+    {
+        for(int i = 0; i < 5; i++) yield return new WaitForSeconds(1);
+
+        StartCoroutine(GameTimer());
+        StartCoroutine(Spawn(SpawnTime));
+
+        yield break;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    public void LoadScene(int SceneId)
+    {
+        SceneManager.LoadSceneAsync(SceneId);
     }
 
     public static void ChangingScore(int score)
