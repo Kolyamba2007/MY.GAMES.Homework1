@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.EventSystems;
 
@@ -8,17 +6,14 @@ using UnityEngine.EventSystems;
 public class BaseUnit : MonoBehaviour, IPointerClickHandler
 {
     [Header("Время жизни персонажа")]
-    [SerializeField, Range(5, 15)]
-    private float _liveTime;
+    [SerializeField, Range(5, 15)] private float _liveTime;
     [Header("Максимально возможные очки за попадание")]
-    [SerializeField, Range(5, 20)]
-    private int _possibleScorePoints;
+    [SerializeField, Range(5, 20)] private int _possibleScorePoints;
     [Header("Радиус взрыва")]
-    [SerializeField, Range(2, 10)]
-    private float _explosionRadius;
+    [SerializeField, Range(2, 10)] private float _explosionRadius;
     [Header("Сила взрыва")]
-    [SerializeField, Range(100, 300)]
-    private float _explosionForce;
+    [SerializeField, Range(100, 300)] private float _explosionForce;
+
     private ScaleConstraint _scaleConstraint;
     private float time = 0;
     private bool isClicked = false;

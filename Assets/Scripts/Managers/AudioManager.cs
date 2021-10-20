@@ -2,10 +2,8 @@
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField]
-    private AudioSource _audioSource;
-    [SerializeField]
-    private AudioClip _explosionClip, _clickClip;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _explosionClip, _clickClip;
 
     private static AudioSource AudioSource { get; set; }
     public static AudioClip ExplosionClip { get; set; }

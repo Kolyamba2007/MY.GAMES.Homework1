@@ -1,24 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Время игры в секундах")]
-    [SerializeField, Range(120, 300)]
-    private int GameTime;
+    [SerializeField, Range(120, 300)] private int GameTime;
     [Header("Точка появления персонажей")]
-    [SerializeField]
-    private Transform SpawnPoint;
+    [SerializeField] private Transform SpawnPoint;
     [Header("Персонаж")]
-    [SerializeField]
-    private GameObject Egg, Sausage, Tomato;
+    [SerializeField] private GameObject Egg, Sausage, Tomato;
     [Header("Время между появлением персонажей")]
-    [SerializeField, Range(1, 5)]
-    private float SpawnTime;
-    [SerializeField]
-    private GameObject PotWithoutLid, PotLid;
+    [SerializeField, Range(1, 5)] private float SpawnTime;
+    [SerializeField] private GameObject PotWithoutLid, PotLid;
 
     public static int Score { get; set; } = 0;
     private LinkedList<GameObject> characters = new LinkedList<GameObject>();
@@ -82,6 +78,9 @@ public class GameManager : MonoBehaviour
 
     public void ExitGame()
     {
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#endif
         Application.Quit();
     }
 

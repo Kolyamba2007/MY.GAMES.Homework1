@@ -2,8 +2,7 @@
 
 public class EffectsManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _explosionEffect;
+    [SerializeField] private GameObject _explosionEffect;
 
     private static GameObject ExplosionEffect { get; set; }
 

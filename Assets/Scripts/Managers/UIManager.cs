@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
-    private Text _scoreText, _timerText;
+    [SerializeField] private Text _scoreText, _timerText;
     private static Text ScoreText { get; set; }
     private static Text TimerText { get; set; }
 
