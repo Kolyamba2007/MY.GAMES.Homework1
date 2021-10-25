@@ -1,28 +1,32 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private AudioManager _audioManager;
+    [SerializeField] private EffectsManager _effectsManager;
+
     [Header("Время игры в секундах")]
     [SerializeField, Range(120, 300)] private int GameTime;
     [Header("Точка появления персонажей")]
     [SerializeField] private Transform SpawnPoint;
     [Header("Персонаж")]
-    [SerializeField] private GameObject Egg, Sausage, Tomato;
+    [SerializeField] private BaseUnit Egg, Sausage, Tomato;
     [Header("Время между появлением персонажей")]
     [SerializeField, Range(1, 5)] private float SpawnTime;
-    [SerializeField] private GameObject PotWithoutLid, PotLid;
 
-    public static int Score { get; set; } = 0;
-    private LinkedList<GameObject> characters = new LinkedList<GameObject>();
+    private int Score { get; set; } = 0;
+    private LinkedList<BaseUnit> characters = new LinkedList<BaseUnit>();
+
+    public event Action Paused;
+    public event Action<int> ChangedScore, ChangedGameTime;
 
     void Start()
     {
-        Time.timeScale = 1;
-        UIManager.OnChangedGameTime(GameTime);
+        ChangedGameTime(GameTime);
         StartCoroutine(Countdown());
     }
 
@@ -31,7 +35,7 @@ public class GameManager : MonoBehaviour
         while (GameTime > 0)
         {
             GameTime--;
-            UIManager.OnChangedGameTime(GameTime);
+            ChangedGameTime(GameTime);
             yield return new WaitForSeconds(1);
         }
 
@@ -42,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            switch (Random.Range(0, 3))
+            switch (UnityEngine.Random.Range(0, 3))
             {
                 case 0:
                     CreateCharacter(Egg);
@@ -62,40 +66,69 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < 5; i++) yield return new WaitForSeconds(1);
 
-        Destroy(PotWithoutLid);
-        Destroy(PotLid);
-
         StartCoroutine(GameTimer());
         StartCoroutine(Spawning(SpawnTime));
 
         yield break;
     }
 
-    private void CreateCharacter(GameObject character)
+    private void CreateCharacter(BaseUnit character)
     {
-        characters.AddLast(Instantiate(character, SpawnPoint.position, Quaternion.identity));
+        BaseUnit unit = Instantiate(character, SpawnPoint.position, Quaternion.identity);
+
+        unit.Exploded += OnUnitExploded;
+        unit.Clicked += OnUnitClicked;
+
+        characters.AddLast(unit);
     }
 
-    public void ExitGame()
+    private void OnUnitExploded(BaseUnit unit, int Score)
     {
-#if UNITY_EDITOR
-        EditorApplication.ExitPlaymode();
-#endif
-        Application.Quit();
+        ChangeScore(Score);
+
+        _audioManager.PlaySound(AudioManager.UnitAudio.Explosion);
+        _effectsManager.PlayEffect(unit.gameObject.transform);
+
+        RemoveCharacter(unit);
     }
 
-    public void LoadScene(int SceneId)
+    private void OnUnitClicked(BaseUnit unit, int Score)
     {
-        foreach (var character in characters) Destroy(character);
+        ChangeScore(Score);
 
-        SceneManager.LoadSceneAsync(SceneId);
+        _audioManager.PlaySound(AudioManager.UnitAudio.Click);
+
+        RemoveCharacter(unit);
     }
 
-    public static void ChangingScore(int score)
+    private void RemoveCharacter(BaseUnit character)
+    {
+        characters.Remove(character);
+    }
+
+    private void ChangeScore(int score)
     {
         Score += score;
         if(Score < 0) Score = 0;
 
-        UIManager.OnChangedScore(Score);
+        ChangedScore?.Invoke(Score);
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = Time.timeScale == 1 ? 0 : 1;
+        Paused?.Invoke();
+    }
+
+    public void LoadScene(int SceneId)
+    {
+        foreach (var character in characters)
+        {
+            character.isClicked = true;
+            Destroy(character);
+        }
+
+        SceneManager.LoadSceneAsync(SceneId);
+        Time.timeScale = 1;
     }
 }

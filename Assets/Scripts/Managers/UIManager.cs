@@ -4,22 +4,26 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Text _scoreText, _timerText;
-    private static Text ScoreText { get; set; }
-    private static Text TimerText { get; set; }
+    [SerializeField] private Canvas _pauseMenu;
 
-    private void OnEnable()
+    [SerializeField] private GameManager _gameManager;
+
+    private void Awake()
     {
-        ScoreText = _scoreText;
-        TimerText = _timerText;
+        _gameManager.Paused += OpenPauseMenu;
+        _gameManager.ChangedScore += OnChangedScore;
+        _gameManager.ChangedGameTime += OnChangedGameTime;
     }
 
-    public static void OnChangedGameTime(int gameTime)
+    private void OnChangedGameTime(int gameTime)
     {
-        TimerText.text = (gameTime % 60) < 10 ? $"{gameTime / 60}:0{gameTime % 60}" : $"{gameTime/60}:{gameTime%60}";
+        _timerText.text = (gameTime % 60) < 10 ? $"{gameTime / 60}:0{gameTime % 60}" : $"{gameTime/60}:{gameTime%60}";
     }
 
-    public static void OnChangedScore(int score)
+    private void OnChangedScore(int score)
     {
-        ScoreText.text = $"Score: {score}";
+        _scoreText.text = $"Score: {score}";
     }
+
+    private void OpenPauseMenu() => _pauseMenu.enabled = !_pauseMenu.enabled;
 }

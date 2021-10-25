@@ -4,16 +4,17 @@ public class EffectsManager : MonoBehaviour
 {
     [SerializeField] private GameObject _explosionEffect;
 
-    private static GameObject ExplosionEffect { get; set; }
+    [SerializeField] private GameObject PotWithoutLid, PotLid;
 
-    private void OnEnable()
+    private void Start()
     {
-        ExplosionEffect = _explosionEffect;
+        Destroy(PotWithoutLid, 5.1f);
+        Destroy(PotLid, 5.1f);
     }
 
-    public static void Explosion(Transform transform)
+    public void PlayEffect(Transform transform)
     {
-        GameObject obj = Instantiate(ExplosionEffect, transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(_explosionEffect, transform.position, Quaternion.identity);
         Destroy(obj, 2);
     }
 }

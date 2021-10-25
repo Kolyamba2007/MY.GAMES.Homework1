@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.EventSystems;
 
@@ -15,8 +16,11 @@ public class BaseUnit : MonoBehaviour, IPointerClickHandler
     [SerializeField, Range(100, 300)] private float _explosionForce;
 
     private ScaleConstraint _scaleConstraint;
-    private float time = 0;
-    private bool isClicked = false;
+    private float _time = 0;
+
+    [HideInInspector] public bool isClicked = false;
+
+    public event Action<BaseUnit, int> Exploded, Clicked;
 
     void Start()
     {
@@ -26,8 +30,8 @@ public class BaseUnit : MonoBehaviour, IPointerClickHandler
 
     void Update()
     {
-        _scaleConstraint.weight = Mathf.Lerp(1, 0, time/ _liveTime);
-        time += Time.deltaTime;
+        _scaleConstraint.weight = Mathf.Lerp(1, 0, _time / _liveTime);
+        _time += Time.deltaTime;
     }
 
     private void OnDestroy()
@@ -38,17 +42,15 @@ public class BaseUnit : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        AudioManager.PlaySound(AudioManager.ClickClip);
-        GameManager.ChangingScore((int)(time/_liveTime * _possibleScorePoints));
+        Clicked?.Invoke(this, (int)(_time / _liveTime * _possibleScorePoints));
+
         isClicked = true;
         Destroy(transform.gameObject);
     }
 
     private void Explode()
     {
-        AudioManager.PlaySound(AudioManager.ExplosionClip);
-        EffectsManager.Explosion(transform);
-        GameManager.ChangingScore(-5);
+        Exploded?.Invoke(this, -5);
 
         Collider2D[] overlappedColliders = Physics2D.OverlapCircleAll(transform.position, _explosionRadius);
     

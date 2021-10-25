@@ -2,22 +2,21 @@
 
 public class AudioManager : MonoBehaviour
 {
+    public enum UnitAudio { Click, Explosion }
+
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _explosionClip, _clickClip;
 
-    private static AudioSource AudioSource { get; set; }
-    public static AudioClip ExplosionClip { get; set; }
-    public static AudioClip ClickClip { get; set; }
-
-    private void OnEnable()
+    public void PlaySound(UnitAudio audio)
     {
-        AudioSource = _audioSource;
-        ExplosionClip = _explosionClip;
-        ClickClip = _clickClip;
-    }
-
-    public static void PlaySound(AudioClip clip)
-    {
-        AudioSource.PlayOneShot(clip);
+        switch (audio)
+        {
+            case UnitAudio.Click:
+                _audioSource.PlayOneShot(_clickClip);
+                break;
+            case UnitAudio.Explosion:
+                _audioSource.PlayOneShot(_explosionClip);
+                break;
+        }
     }
 }
