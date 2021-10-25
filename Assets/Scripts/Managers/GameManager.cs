@@ -17,12 +17,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BaseUnit Egg, Sausage, Tomato;
     [Header("Время между появлением персонажей")]
     [SerializeField, Range(1, 5)] private float SpawnTime;
+    [Header("Очки, которые надо набрать для получения каждой звезды")]
+    [SerializeField, Range(100, 500)] private int[] StarScore;
 
     private int Score { get; set; } = 0;
     private LinkedList<BaseUnit> characters = new LinkedList<BaseUnit>();
 
     public event Action Paused;
-    public event Action<int> ChangedScore, ChangedGameTime;
+    public event Action<int> ChangedScore, ChangedGameTime, EndGame;
 
     void Start()
     {
@@ -40,6 +42,19 @@ public class GameManager : MonoBehaviour
         }
 
         Time.timeScale = 0;
+        EndGame(StarCount());
+    }
+
+    private int StarCount()
+    {
+        int count = 0;
+
+        foreach(int _score in StarScore)
+        {
+            if (Score >= _score) count++;
+        }
+
+        return count;
     }
 
     private IEnumerator Spawning(float spawnTime)

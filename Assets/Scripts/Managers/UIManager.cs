@@ -4,15 +4,19 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Text _scoreText, _timerText;
-    [SerializeField] private Canvas _pauseMenu;
+    [SerializeField] private Canvas _pauseMenu, _resultsTable;
 
     [SerializeField] private GameManager _gameManager;
+
+    [SerializeField] private Sprite _starSprite;
+    [SerializeField] private Image[] _starImages;
 
     private void Awake()
     {
         _gameManager.Paused += OpenPauseMenu;
         _gameManager.ChangedScore += OnChangedScore;
         _gameManager.ChangedGameTime += OnChangedGameTime;
+        _gameManager.EndGame += OpenResultsTable;
     }
 
     private void OnChangedGameTime(int gameTime)
@@ -26,4 +30,15 @@ public class UIManager : MonoBehaviour
     }
 
     private void OpenPauseMenu() => _pauseMenu.enabled = !_pauseMenu.enabled;
+
+    private void OpenResultsTable(int starCount)
+    {
+        for(int i = 0; i < starCount; i++)
+        {
+            _starImages[i].sprite = _starSprite;
+            _starImages[i].color = new Color(255, 255, 255, 255);
+        }
+
+        _resultsTable.enabled = true;
+    }
 }
