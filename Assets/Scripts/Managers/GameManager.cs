@@ -37,12 +37,12 @@ public class GameManager : MonoBehaviour
         while (GameTime > 0)
         {
             GameTime--;
-            ChangedGameTime(GameTime);
+            ChangedGameTime?.Invoke(GameTime);
             yield return new WaitForSeconds(1);
         }
 
         Time.timeScale = 0;
-        EndGame(StarCount());
+        EndGame?.Invoke(StarCount());
     }
 
     private int StarCount()
