@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
 
         Time.timeScale = 0;
         EndGame?.Invoke(StarCount());
+        _effectsManager.PlayEffect(EffectsManager.Effects.Confetti);
     }
 
     private int StarCount()
