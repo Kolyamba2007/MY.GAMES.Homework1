@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private EffectsManager _effectsManager;
 
     [Header("Время игры в секундах")]
-    [SerializeField, Range(120, 300)] private int GameTime;
+    [SerializeField, Range(120, 300)] private int _gameTime;
+    private int GameTime;
     [Header("Точка появления персонажей")]
     [SerializeField] private Transform SpawnPoint;
     [Header("Персонаж")]
@@ -24,10 +25,13 @@ public class GameManager : MonoBehaviour
     private LinkedList<BaseUnit> characters = new LinkedList<BaseUnit>();
 
     public event Action Paused;
-    public event Action<int> ChangedScore, ChangedGameTime, EndGame;
+    public event Action<int> ChangedScore;
+    public event Action<int> ChangedGameTime;
+    public event Action<int> EndGame;
 
     void Start()
     {
+        GameTime = _gameTime;
         ChangedGameTime(GameTime);
         StartCoroutine(Countdown());
     }

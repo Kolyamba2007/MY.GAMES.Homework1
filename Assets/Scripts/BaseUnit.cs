@@ -20,7 +20,8 @@ public class BaseUnit : MonoBehaviour, IPointerClickHandler
 
     [HideInInspector] public bool isClicked = false;
 
-    public event Action<BaseUnit, int> Exploded, Clicked;
+    public event Action<BaseUnit, int> Exploded;
+    public event Action<BaseUnit, int> Clicked;
 
     void Start()
     {

@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        _gameManager.Paused += OpenPauseMenu;
+        _gameManager.Paused += PauseMenu;
         _gameManager.ChangedScore += OnChangedScore;
         _gameManager.ChangedGameTime += OnChangedGameTime;
         _gameManager.EndGame += OpenResultsTable;
@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
         _scoreText.text = $"Score: {score}";
     }
 
-    private void OpenPauseMenu() => _pauseMenu.enabled = !_pauseMenu.enabled;
+    private void PauseMenu() => _pauseMenu.enabled = !_pauseMenu.enabled;
 
     private void OpenResultsTable(int starCount)
     {
