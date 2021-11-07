@@ -11,18 +11,18 @@ public class GameManager : MonoBehaviour
 
     [Header("Время игры в секундах")]
     [SerializeField, Range(120, 300)] private int _gameTime;
-    private int GameTime;
     [Header("Точка появления персонажей")]
     [SerializeField] private Transform SpawnPoint;
     [Header("Персонаж")]
     [SerializeField] private BaseUnit Egg, Sausage, Tomato;
     [Header("Время между появлением персонажей")]
-    [SerializeField, Range(1, 5)] private float SpawnTime;
+    [SerializeField, Range(1, 5)] private float _spawnTime;
     [Header("Очки, которые надо набрать для получения каждой звезды")]
-    [SerializeField, Range(100, 500)] private int[] StarScore;
+    [SerializeField, Range(100, 500)] private int[] _starScore;
 
+    private int GameTime;
     private int Score { get; set; } = 0;
-    private LinkedList<BaseUnit> characters = new LinkedList<BaseUnit>();
+    private LinkedList<BaseUnit> _characters = new LinkedList<BaseUnit>();
 
     public event Action Paused;
     public event Action<int> ChangedScore;
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GameTime = _gameTime;
-        ChangedGameTime(GameTime);
+        ChangedGameTime?.Invoke(GameTime);
         StartCoroutine(Countdown());
     }
 
@@ -45,6 +45,13 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
+        FinishGame();
+
+        yield break;
+    }
+
+    private void FinishGame()
+    {
         Time.timeScale = 0;
         EndGame?.Invoke(StarCount());
         _effectsManager.PlayEffect(EffectsManager.Effects.Confetti);
@@ -54,9 +61,9 @@ public class GameManager : MonoBehaviour
     {
         int count = 0;
 
-        foreach(int _score in StarScore)
+        foreach(int score in _starScore)
         {
-            if (Score >= _score) count++;
+            if (Score >= score) count++;
         }
 
         return count;
@@ -64,7 +71,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Spawning(float spawnTime)
     {
-        while (true)
+        while (GameTime > 0)
         {
             switch (UnityEngine.Random.Range(0, 3))
             {
@@ -80,6 +87,8 @@ public class GameManager : MonoBehaviour
             }
             yield return new WaitForSeconds(spawnTime);
         }
+
+        yield break;
     }
 
     private IEnumerator Countdown()
@@ -87,7 +96,7 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < 5; i++) yield return new WaitForSeconds(1);
 
         StartCoroutine(GameTimer());
-        StartCoroutine(Spawning(SpawnTime));
+        StartCoroutine(Spawning(_spawnTime));
 
         yield break;
     }
@@ -99,7 +108,7 @@ public class GameManager : MonoBehaviour
         unit.Exploded += OnUnitExploded;
         unit.Clicked += OnUnitClicked;
 
-        characters.AddLast(unit);
+        _characters.AddLast(unit);
     }
 
     private void OnUnitExploded(BaseUnit unit, int Score)
@@ -123,7 +132,7 @@ public class GameManager : MonoBehaviour
 
     private void RemoveCharacter(BaseUnit character)
     {
-        characters.Remove(character);
+        _characters.Remove(character);
     }
 
     private void ChangeScore(int score)
@@ -142,7 +151,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(int SceneId)
     {
-        foreach (var character in characters)
+        foreach (var character in _characters)
         {
             character.isClicked = true;
             Destroy(character);

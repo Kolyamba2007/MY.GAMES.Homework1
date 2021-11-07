@@ -5,6 +5,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private Text _scoreText, _timerText;
     [SerializeField] private Canvas _pauseMenu, _resultsTable;
+    [SerializeField] private Button _pauseButton;
 
     [SerializeField] private GameManager _gameManager;
 
@@ -33,7 +34,9 @@ public class UIManager : MonoBehaviour
 
     private void OpenResultsTable(int starCount)
     {
-        for(int i = 0; i < starCount; i++)
+        _pauseButton.enabled = false;
+
+        for (int i = 0; i < starCount; i++)
         {
             _starImages[i].sprite = _starSprite;
             _starImages[i].color = new Color(255, 255, 255, 255);
