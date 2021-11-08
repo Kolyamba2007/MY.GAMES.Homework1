@@ -1,35 +1,34 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Animations;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Collider2D), typeof(Rigidbody2D))]
-public class BaseUnit : MonoBehaviour, IPointerClickHandler
+public class BaseUnit : MonoBehaviour
 {
     [Header("Время жизни персонажа")]
-    [SerializeField, Range(5, 15)] private float _liveTime;
+    [SerializeField, Range(5, 15)] protected float _liveTime;
     [Header("Максимально возможные очки за попадание")]
-    [SerializeField, Range(5, 20)] private int _possibleScorePoints;
+    [SerializeField, Range(5, 20)] protected int _possibleScorePoints;
     [Header("Радиус взрыва")]
     [SerializeField, Range(2, 10)] private float _explosionRadius;
     [Header("Сила взрыва")]
     [SerializeField, Range(100, 300)] private float _explosionForce;
 
     private ScaleConstraint _scaleConstraint;
-    private float _time = 0;
+    protected float _time = 0;
 
-    [HideInInspector] public bool isClicked = false;
+    [HideInInspector] public bool isInteracted = false;
 
     public event Action<BaseUnit, int> Exploded;
-    public event Action<BaseUnit, int> Clicked;
+    public event Action<BaseUnit, int> Interacted;
 
-    void Start()
+    private void Start()
     {
         _scaleConstraint = GetComponent<ScaleConstraint>();
         Destroy(transform.gameObject, _liveTime);
     }
 
-    void Update()
+    private void Update()
     {
         _scaleConstraint.weight = Mathf.Lerp(1, 0, _time / _liveTime);
         _time += Time.deltaTime;
@@ -37,16 +36,8 @@ public class BaseUnit : MonoBehaviour, IPointerClickHandler
 
     private void OnDestroy()
     {
-        if(!isClicked)
+        if(!isInteracted)
             Explode();
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Clicked?.Invoke(this, (int)(_time / _liveTime * _possibleScorePoints));
-
-        isClicked = true;
-        Destroy(transform.gameObject);
     }
 
     private void Explode()
@@ -66,6 +57,14 @@ public class BaseUnit : MonoBehaviour, IPointerClickHandler
                 rigidbody.AddForce(direction * _explosionForce);
             }
         }
+    }
+
+    protected void InteractionHandler(int score)
+    {
+        Interacted?.Invoke(this, score);
+
+        isInteracted = true;
+        Destroy(transform.gameObject);
     }
 
     private void OnDrawGizmosSelected()

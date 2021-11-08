@@ -7,17 +7,9 @@ public class EffectsManager : MonoBehaviour
     [SerializeField] private GameObject _explosionEffect;
     [SerializeField] private ParticleSystem _particleEffect;
 
-    [SerializeField] private GameObject PotWithoutLid, PotLid;
-
-    private void Start()
+    public void PlayEffect(Vector2 position)
     {
-        Destroy(PotWithoutLid, 5.1f);
-        Destroy(PotLid, 5.1f);
-    }
-
-    public void PlayEffect(Transform transform)
-    {
-        GameObject obj = Instantiate(_explosionEffect, transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(_explosionEffect, position, Quaternion.identity);
         Destroy(obj, 2);
     }
 

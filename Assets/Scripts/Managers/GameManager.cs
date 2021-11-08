@@ -4,23 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public abstract class GameManager : MonoBehaviour
 {
-    [SerializeField] private AudioManager _audioManager;
-    [SerializeField] private EffectsManager _effectsManager;
+    [SerializeField] protected AudioManager _audioManager;
+    [SerializeField] protected EffectsManager _effectsManager;
 
     [Header("Время игры в секундах")]
     [SerializeField, Range(120, 300)] private int _gameTime;
-    [Header("Точка появления персонажей")]
-    [SerializeField] private Transform SpawnPoint;
     [Header("Персонаж")]
-    [SerializeField] private BaseUnit Egg, Sausage, Tomato;
-    [Header("Время между появлением персонажей")]
-    [SerializeField, Range(1, 5)] private float _spawnTime;
+    [SerializeField] protected BaseUnit[] _characterSet;
     [Header("Очки, которые надо набрать для получения каждой звезды")]
     [SerializeField, Range(100, 500)] private int[] _starScore;
 
-    private int GameTime;
+    protected int GameTime;
     private int Score { get; set; } = 0;
     private LinkedList<BaseUnit> _characters = new LinkedList<BaseUnit>();
 
@@ -69,46 +65,28 @@ public class GameManager : MonoBehaviour
         return count;
     }
 
-    private IEnumerator Spawning(float spawnTime)
-    {
-        while (GameTime > 0)
-        {
-            switch (UnityEngine.Random.Range(0, 3))
-            {
-                case 0:
-                    CreateCharacter(Egg);
-                    break;
-                case 1:
-                    CreateCharacter(Tomato);
-                    break;
-                case 2:
-                    CreateCharacter(Sausage);
-                    break;
-            }
-            yield return new WaitForSeconds(spawnTime);
-        }
-
-        yield break;
-    }
-
     private IEnumerator Countdown()
     {
         for(int i = 0; i < 5; i++) yield return new WaitForSeconds(1);
 
         StartCoroutine(GameTimer());
-        StartCoroutine(Spawning(_spawnTime));
+        StartGame();
 
         yield break;
     }
 
-    private void CreateCharacter(BaseUnit character)
+    protected abstract void StartGame();
+
+    protected BaseUnit CreateCharacter(BaseUnit character, Vector3 spawnPosition)
     {
-        BaseUnit unit = Instantiate(character, SpawnPoint.position, Quaternion.identity);
+        BaseUnit unit = Instantiate(character, spawnPosition, Quaternion.identity);
 
         unit.Exploded += OnUnitExploded;
-        unit.Clicked += OnUnitClicked;
+        unit.Interacted += OnUnitInteracted;
 
         _characters.AddLast(unit);
+
+        return unit;
     }
 
     private void OnUnitExploded(BaseUnit unit, int Score)
@@ -116,12 +94,12 @@ public class GameManager : MonoBehaviour
         ChangeScore(Score);
 
         _audioManager.PlaySound(AudioManager.UnitAudio.Explosion);
-        _effectsManager.PlayEffect(unit.gameObject.transform);
+        _effectsManager.PlayEffect(unit.gameObject.transform.position);
 
         RemoveCharacter(unit);
     }
 
-    private void OnUnitClicked(BaseUnit unit, int Score)
+    private void OnUnitInteracted(BaseUnit unit, int Score)
     {
         ChangeScore(Score);
 
@@ -153,7 +131,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var character in _characters)
         {
-            character.isClicked = true;
+            character.isInteracted = true;
             Destroy(character);
         }
 

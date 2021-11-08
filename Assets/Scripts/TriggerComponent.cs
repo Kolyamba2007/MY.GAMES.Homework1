@@ -2,8 +2,5 @@
 
 public class TriggerComponent : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        Destroy(collider.gameObject);
-    }
+    private void OnTriggerEnter2D(Collider2D collider) => Destroy(collider.gameObject);
 }
