@@ -19,7 +19,7 @@ public class CannonComponent : MonoBehaviour
 
     private IEnumerator FireTimer()
     {
-        int timer = UnityEngine.Random.Range(5, 10);
+        int timer = UnityEngine.Random.Range(3, 7);
         _timerText.text = timer.ToString();
 
         do
@@ -38,17 +38,17 @@ public class CannonComponent : MonoBehaviour
 
     private IEnumerator RotateCannon(float angle)
     {
-        float timer = 0;
+        float t = 0;
         Quaternion startRotation = transform.rotation;
 
         do
         {
-            timer += Time.deltaTime / 2;
-            transform.rotation = Quaternion.Lerp(startRotation, Quaternion.Euler(0, 0, angle), timer);
+            t = Mathf.Clamp01(t + Time.deltaTime / 2);
+            transform.rotation = Quaternion.Lerp(startRotation, Quaternion.Euler(0, 0, angle), t);
 
             yield return null;
         }
-        while (timer < 1);
+        while (t < 1);
 
         StartCoroutine(FireTimer());
 
