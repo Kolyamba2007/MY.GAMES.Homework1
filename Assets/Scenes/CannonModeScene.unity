@@ -8282,7 +8282,7 @@ MonoBehaviour:
   - {fileID: 6212574644328838538, guid: fd139b8aeb01dab439e9ff6f9dc62621, type: 3}
   - {fileID: 6570410852547180049, guid: c6d09cc1d0d871d49acdd5f662f7563c, type: 3}
   - {fileID: 877350172627803243, guid: 993c74cea13e9ed44abea7093f11f77b, type: 3}
-  _starScore: fa0000002c0100005e010000
+  _starScore: 2c0100007c010000c2010000
   _cannons:
   - {fileID: 581772601}
   - {fileID: 1041753852}
