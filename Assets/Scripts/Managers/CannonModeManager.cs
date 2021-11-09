@@ -5,9 +5,11 @@ public class CannonModeManager : GameManager
     [Header("Пушки, находящиеся на сцене")]
     [SerializeField] private CannonComponent[] _cannons;
 
-    private void Awake()
+    private void OnEnable()
     {
-        for(int i = 0; i < _cannons.Length; i++)
+        StartGame += () => { for (int i = 0; i < _cannons.Length; i++) _cannons[i].StartCoroutine("FireTimer"); };
+
+            for (int i = 0; i < _cannons.Length; i++)
             _cannons[i].Fire += OnFire;
     }
 
@@ -17,11 +19,5 @@ public class CannonModeManager : GameManager
 
         _audioManager.PlaySound(AudioManager.UnitAudio.Explosion);
         _effectsManager.PlayEffect(spawnPosition);
-    }
-
-    protected override void StartGame()
-    {
-        for (int i = 0; i < _cannons.Length; i++)
-            _cannons[i].StartCoroutine("FireTimer");
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public abstract class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     [SerializeField] protected AudioManager _audioManager;
     [SerializeField] protected EffectsManager _effectsManager;
@@ -24,6 +24,8 @@ public abstract class GameManager : MonoBehaviour
     public event Action<int> ChangedScore;
     public event Action<int> ChangedGameTime;
     public event Action<int> EndGame;
+
+    protected event Action StartGame;
 
     void Start()
     {
@@ -70,12 +72,10 @@ public abstract class GameManager : MonoBehaviour
         for(int i = 0; i < 5; i++) yield return new WaitForSeconds(1);
 
         StartCoroutine(GameTimer());
-        StartGame();
+        StartGame?.Invoke();
 
         yield break;
     }
-
-    protected abstract void StartGame();
 
     protected BaseUnit CreateCharacter(BaseUnit character, Vector3 spawnPosition)
     {

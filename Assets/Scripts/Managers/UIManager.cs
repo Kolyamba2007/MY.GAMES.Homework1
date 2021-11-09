@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite _starSprite;
     [SerializeField] private Image[] _starImages;
 
-    private void Awake()
+    private void OnEnable()
     {
         _gameManager.Paused += PauseMenu;
         _gameManager.ChangedScore += OnChangedScore;
