@@ -13,8 +13,6 @@ public class StandartModeManager : GameManager
 
     private void OnEnable()
     {
-        StartGame += () => StartCoroutine(Spawning(_spawnTime));
-
         Destroy(PotWithoutLid, 5.1f);
         Destroy(PotLid, 5.1f);
     }
@@ -30,4 +28,6 @@ public class StandartModeManager : GameManager
 
         yield break;
     }
+
+    protected override void OnGameStart() => StartCoroutine(Spawning(_spawnTime));
 }

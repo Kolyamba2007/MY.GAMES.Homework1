@@ -7,9 +7,7 @@ public class CannonModeManager : GameManager
 
     private void OnEnable()
     {
-        StartGame += () => { for (int i = 0; i < _cannons.Length; i++) _cannons[i].StartCoroutine("FireTimer"); };
-
-            for (int i = 0; i < _cannons.Length; i++)
+        for (int i = 0; i < _cannons.Length; i++)
             _cannons[i].Fire += OnFire;
     }
 
@@ -19,5 +17,11 @@ public class CannonModeManager : GameManager
 
         _audioManager.PlaySound(AudioManager.UnitAudio.Explosion);
         _effectsManager.PlayEffect(spawnPosition);
+    }
+
+    protected override void OnGameStart()
+    {
+        for (int i = 0; i < _cannons.Length; i++)
+            _cannons[i].StartCoroutine("FireTimer");
     }
 }

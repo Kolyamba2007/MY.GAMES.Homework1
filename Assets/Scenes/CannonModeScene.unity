@@ -9627,8 +9627,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1660340504}
-  - component: {fileID: 1660340506}
   - component: {fileID: 1660340505}
+  - component: {fileID: 1660340506}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -9661,7 +9661,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
